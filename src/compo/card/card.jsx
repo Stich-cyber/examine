@@ -9,7 +9,7 @@ function Card() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://api.escuelajs.co/api/v1/products")
+    fetch("https://dummyjson.com/products?limit=30")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch products");
@@ -17,7 +17,7 @@ function Card() {
         return res.json();
       })
       .then((data) => {
-        setData(data);
+        setData(data.products);
         setLoading(false);
       })
       .catch((error) => {
@@ -64,11 +64,14 @@ function Card() {
               {product.title || "Untitled Product"}
             </h3>
             <p className="product-description">
-              {product.description ||
-                product.slug ||
-                "No description available"}
+              {product.description || "No description available"}
             </p>
             <div className="product-price">${product.price || "0.00"}</div>
+            {product.discountPercentage && (
+              <div className="product-discount">
+                {product.discountPercentage}% OFF
+              </div>
+            )}
           </div>
         ))}
       </div>
